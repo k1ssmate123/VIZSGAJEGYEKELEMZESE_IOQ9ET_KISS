@@ -1,0 +1,11 @@
+@VizsgajegyAPI_HostAddress = http://localhost:5065
+
+GET {{VizsgajegyAPI_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{VizsgajegyAPI_HostAddress}}/todos/1
+Accept: application/json
+
+###
