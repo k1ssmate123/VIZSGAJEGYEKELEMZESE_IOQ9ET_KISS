@@ -23,8 +23,17 @@ namespace VizsgajegyAPI.Controllers
         [HttpGet("{subjectName}")]
         public ExamMarks? GetSubject(string subjectName)
         {
+            
+
+
+
             return repo.ReadByName(subjectName);
+
+
+
         }
+
+        
         [HttpPost]
         public void Create([FromBody] ExamMarks exam)
         {
