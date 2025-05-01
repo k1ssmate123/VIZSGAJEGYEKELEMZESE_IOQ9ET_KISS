@@ -15,25 +15,20 @@ namespace VizsgajegyAPI.Controllers
             this.repo = repo;
         }
 
-        [HttpGet] 
+        [HttpGet]
         public IEnumerable<ExamMarks> Read()
         {
             return repo.Read();
         }
+
+
         [HttpGet("{subjectName}")]
-        public ExamMarks? GetSubject(string subjectName)
+        public Statistics? GetSubject(string subjectName)
         {
-            
-
-
-
-            return repo.ReadByName(subjectName);
-
-
-
+            return new Statistics(repo.ReadByName(subjectName));
         }
 
-        
+
         [HttpPost]
         public void Create([FromBody] ExamMarks exam)
         {
