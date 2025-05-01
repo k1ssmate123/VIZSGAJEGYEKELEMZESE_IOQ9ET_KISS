@@ -30,9 +30,9 @@ namespace VizsgajegyAPI.Controllers
 
 
         [HttpPost]
-        public void Create([FromBody] ExamMarks exam)
+        public void Create([FromBody] string subjectName, string markList)
         {
-            repo.CreateSubject(exam);
+            repo.CreateSubject(subjectName, markList);
         }
         [HttpDelete("{subjectName}")]
         public void Delete(string subjectName)
