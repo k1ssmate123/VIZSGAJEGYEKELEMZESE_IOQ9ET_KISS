@@ -28,6 +28,6 @@ app.UseCors(x => x
     .AllowCredentials()
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .WithOrigins("http://localhost:5500")); //todo
+    .WithOrigins("http://127.0.0.1:5500")); 
 
 app.Run();
