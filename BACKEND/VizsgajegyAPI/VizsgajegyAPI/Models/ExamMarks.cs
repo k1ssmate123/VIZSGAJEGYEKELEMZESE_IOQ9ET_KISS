@@ -13,5 +13,8 @@ namespace VizsgajegyAPI.Models
         {
             
         }
+
+
+
     }
 }

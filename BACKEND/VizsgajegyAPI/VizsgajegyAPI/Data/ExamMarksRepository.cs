@@ -10,7 +10,10 @@ namespace VizsgajegyAPI.Data
         {
             this.dbController = dbController;
         }
-
+        public IEnumerable<ExamMarks> Read()
+        {
+            return dbController.ExamMarksList;
+        }
         public ExamMarks ReadByName(string subjectName)
         {
             return dbController.ExamMarksList.FirstOrDefault(x => x.SubjectName == subjectName);
@@ -26,9 +29,9 @@ namespace VizsgajegyAPI.Data
             ReadByName(subjectName).Marks.Remove(mark);
         }
 
-        public void AddSubject(string subjectName)
+        public void CreateSubject(ExamMarks subject)
         {
-            dbController.ExamMarksList.Add(new ExamMarks { SubjectName = subjectName, Marks = new List<int>() });
+            dbController.ExamMarksList.Add(subject);
         }
 
         public void RemoveSubject(string subjectName)
@@ -50,9 +53,8 @@ namespace VizsgajegyAPI.Data
             return ReadByName(subjectName).Marks;
         }
 
-        public IEnumerable<ExamMarks> Read()
-        {
-            return dbController.ExamMarksList;
-        }
+     
+
+  
     }
 }
