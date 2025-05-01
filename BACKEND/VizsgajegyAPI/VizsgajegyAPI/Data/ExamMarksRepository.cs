@@ -22,21 +22,25 @@ namespace VizsgajegyAPI.Data
         public void AddMarkToSubject(int mark, string subjectName)
         {
             ReadByName(subjectName).Marks.Add(mark);
+            dbController.SaveChanges();
         }
 
         public void RemoveMarkFromSubject(int mark, string subjectName)
         {
             ReadByName(subjectName).Marks.Remove(mark);
+            dbController.SaveChanges();
         }
 
         public void CreateSubject(ExamMarks subject)
         {
             dbController.ExamMarksList.Add(subject);
+            dbController.SaveChanges();
         }
 
         public void RemoveSubject(string subjectName)
         {
             dbController.ExamMarksList.Remove(ReadByName(subjectName));
+            dbController.SaveChanges();
         }
 
         public List<string> ReadAllSubject()

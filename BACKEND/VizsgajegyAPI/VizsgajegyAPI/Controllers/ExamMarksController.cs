@@ -33,7 +33,7 @@ namespace VizsgajegyAPI.Controllers
         [HttpDelete("{subjectName}")]
         public void Delete(string subjectName)
         {
-            this.repo.RemoveSubject(subjectName);
+            repo.RemoveSubject(subjectName);
         }
     }
 }
