@@ -50,7 +50,36 @@ async function showStats(event)
     const response = await fetch('http://localhost:5186/ExamMarks/stats/'+event.target.idParameter)
     stats = await response.json()
     console.log(stats)
-    document.createElement('p').innerHTML=stats.avarage;
+    distributionDiagram(stats.distribution)
+}
+
+
+
+function distributionDiagram(distribution)
+{
+const container = document.getElementById("chart");
+const maxCount = Math.max(...Object.values(distribution));
+
+for (const grade of Object.keys(distribution)){
+  const count = distribution[grade];
+
+  const bar = document.createElement("div");
+  bar.classList.add("bar");
+  bar.style.height = `${(count / maxCount) * 100}%`;  //Barok magassága
+
+
+  const value = document.createElement("div");
+ 
+  value.textContent = count; //Barban szövegként az értéke
+
+  const label = document.createElement("div");
+  label.className = "bar-label";
+  label.textContent = grade; //Bar alatt hányas jegy
+
+  bar.appendChild(value);
+  bar.appendChild(label);
+  container.appendChild(bar);
+}
 }
 
 
