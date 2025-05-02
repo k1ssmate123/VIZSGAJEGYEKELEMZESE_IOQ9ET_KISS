@@ -29,7 +29,7 @@ async function downloadAndDisplay() {
         let btnDel = document.createElement('button')
         btnDel.classList.add('btn')
         btnDel.classList.add('btn-sm')
-        btnDel.classList.add('btn-error')
+        btnDel.classList.add('btn-danger')
         btnDel.classList.add('mx-2')
         btnDel.innerHTML = 'X'
         btnDel.idParameter = x.id
@@ -49,6 +49,8 @@ async function showStats(event)
 {
     const response = await fetch('http://localhost:5186/ExamMarks/stats/'+event.target.idParameter)
     stats = await response.json()
+    console.log(stats)
+    document.createElement('p').innerHTML=stats.avarage;
 }
 
 
