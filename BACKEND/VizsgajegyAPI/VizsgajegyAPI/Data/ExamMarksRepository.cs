@@ -19,18 +19,9 @@ namespace VizsgajegyAPI.Data
             return dbController.ExamMarksList.FirstOrDefault(x => x.SubjectName == subjectName);
         }
 
-        public void AddMarkToSubject(int mark, string subjectName)
-        {
-            ReadByName(subjectName).Marks.Add(mark);
-            dbController.SaveChanges();
-        }
+ 
 
-        public void RemoveMarkFromSubject(int mark, string subjectName)
-        {
-            ReadByName(subjectName).Marks.Remove(mark);
-            dbController.SaveChanges();
-        }
-
+     
 
         public  void CreateSubject(string subjectName, string marksList)
         {
@@ -54,10 +45,7 @@ namespace VizsgajegyAPI.Data
             }
             return temp;
         }
-        public List<int> ReadAllMarkOfSubject(string subjectName)
-        {
-            return ReadByName(subjectName).Marks;
-        }
+     
 
      
 

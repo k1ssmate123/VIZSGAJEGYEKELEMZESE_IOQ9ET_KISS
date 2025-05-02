@@ -14,12 +14,12 @@
             get
             {
                 double avg = 0;
-                foreach (int item in exam.Marks)
+                foreach (var item in exam.Marks)
                 {
                     avg += item;
                 }
                 return avg / exam.Marks.Count;
-            }
+            }   
         }
         public List<int> Median
         {
@@ -36,7 +36,7 @@
 
             }
         }
-   
+
 
 
     }

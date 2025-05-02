@@ -11,13 +11,13 @@ async function downloadAndDisplay() {
         let tdMarks = document.createElement('td')
        
 
- 
-        tdName.innerHTML = x.SubjectName
-        tdMarks.innerHTML = x.Marks
-        tdSalary.innerHTML = x.salary
+        
+        tdName.innerHTML = x.subjectName
+        tdMarks.innerHTML = x.marks
+    
         tr.appendChild(tdName)
         tr.appendChild(tdMarks)
-        document.querySelector('#devs').appendChild(tr)
+        document.querySelector('#tb').appendChild(tr)
     })
 }
 
