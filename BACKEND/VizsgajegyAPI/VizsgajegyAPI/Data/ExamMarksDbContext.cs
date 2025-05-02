@@ -6,7 +6,7 @@ namespace VizsgajegyAPI.Data
 {
     public class ExamMarksDbContext : DbContext
     {
-        public DbSet<ExamMarks> ExamMarksList   { get; set; }
+        public DbSet<ExamMarks> ExamMarksList { get; set; }
         public ExamMarksDbContext()
         {
             Database.EnsureCreated();
@@ -20,6 +20,8 @@ namespace VizsgajegyAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -32,7 +32,7 @@ namespace VizsgajegyAPI.Data
         }
 
 
-        public void CreateSubject(string subjectName, string marksList)
+        public  void CreateSubject(string subjectName, string marksList)
         {
             ExamMarks temp = new ExamMarks(subjectName, marksList);
             dbController.ExamMarksList.Add(temp);

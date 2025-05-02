@@ -1,11 +1,24 @@
 subjects = [];
 async function downloadAndDisplay() {
-    const response = await fetch('http://localhost:5065/')
+    const response = await fetch('http://localhost:5186/ExamMarks/')
     subjects = await response.json()
     console.log(subjects)
 
-    document.querySelector('#subjects').innerHTML = '';
-  
+    document.querySelector('#tb').innerHTML = '';
+    subjects.map(x=>{
+        let tr = document.createElement('tr')
+        let tdName = document.createElement('td')
+        let tdMarks = document.createElement('td')
+       
+
+ 
+        tdName.innerHTML = x.SubjectName
+        tdMarks.innerHTML = x.Marks
+        tdSalary.innerHTML = x.salary
+        tr.appendChild(tdName)
+        tr.appendChild(tdMarks)
+        document.querySelector('#devs').appendChild(tr)
+    })
 }
 
 
@@ -14,7 +27,7 @@ function addSubject()
     let subjectNameForm = document.getElementById('subject').value
     let marksList = document.getElementById('marks').value
    
-    fetch('http://localhost:5065', {
+    fetch('http://localhost:5186/ExamMarks/', {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json', },
         body: JSON.stringify({
