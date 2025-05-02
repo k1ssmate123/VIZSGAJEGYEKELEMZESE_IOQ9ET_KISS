@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VizsgajegyAPI.Models;
+﻿using VizsgajegyAPI.Models;
 
 namespace VizsgajegyAPI.Data
 {
@@ -20,40 +19,55 @@ namespace VizsgajegyAPI.Data
             return dbController.ExamMarksList.FirstOrDefault(x => x.Id == id);
         }
 
-
-        public Statistics Statistics(int id)
+        public Statistics AllStatistics()
         {
+            List<int> allMark = new List<int>();
+        
+            foreach (var item in dbController.ExamMarksList)
+            {
+                allMark = allMark.Concat(item.Marks).ToList();
+            }
+            return Statistics(allMark);
+        }
 
-            var list = ReadById(id).Marks;
+        public Statistics Statistics(List<int> list)
+        {
             var grades = list.OrderBy(x => x);
 
-
-
-            var average = grades.Average();
-            var median = list.Count() % 2 == 0
-                ? (list[list.Count() / 2 - 1] + list[list.Count() / 2]) / 2.0
-                : list[list.Count() / 2];
-
-            var mode = grades
-                .GroupBy(x => x)
-                .OrderByDescending(g => g.Count())
-                .First()
-                .Key;
-
-            var distribution = grades
-                .GroupBy(x => x)
-                .ToDictionary(g => g.Key.ToString(), g => g.Count());
-
-            var result = new Statistics
+            var result = new Statistics();
+            if (grades.Count() > 0)
             {
-                Average = average,
-                Median = median,
-                Mode = mode,
-                Min = grades.Min(),
-                Max = grades.Max(),
-                Distribution = distribution
-            };
+                var average = grades.Average();
+                var median = list.Count() % 2 == 0
+                    ? (list[list.Count() / 2 - 1] + list[list.Count() / 2]) / 2.0
+                    : list[list.Count() / 2];
+
+                var mode = grades
+                    .GroupBy(x => x)
+                    .OrderByDescending(g => g.Count())
+                    .First()
+                    .Key;
+
+                var distribution = grades
+                    .GroupBy(x => x)
+                    .ToDictionary(g => g.Key.ToString(), g => g.Count());
+
+                result = new Statistics
+                {
+                    Average = average,
+                    Median = median,
+                    Mode = mode,
+                    Min = grades.Min(),
+                    Max = grades.Max(),
+                    Distribution = distribution
+                };
+            }
             return result;
+        }
+        public Statistics Statistics(int id)
+        {
+            var list = ReadById(id).Marks;
+            return Statistics(list);
         }
 
 

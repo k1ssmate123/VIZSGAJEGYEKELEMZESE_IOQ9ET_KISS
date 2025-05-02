@@ -43,5 +43,10 @@ namespace VizsgajegyAPI.Controllers
             return Ok(repo.Statistics(id));
         }
 
+        [HttpGet("stats")]
+        public IActionResult AllStatistics()
+        {
+            return Ok(repo.AllStatistics());
+        }
     }
 }

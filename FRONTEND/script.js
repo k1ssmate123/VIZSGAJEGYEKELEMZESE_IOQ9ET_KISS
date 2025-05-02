@@ -54,6 +54,33 @@ async function showStats(event)
 }
 
 
+async function allStats()
+{
+    const response = await fetch('http://localhost:5186/ExamMarks/stats')
+    stats = await response.json()
+  console.log(stats);
+    const container = document.getElementById("stats-panel");
+
+    const statCard = document.createElement("div");
+statCard.className = "card shadow-sm";
+
+statCard.innerHTML = `
+  <div class="card-body">
+    <h5 class="card-title">Statisztikák</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Átlag:</strong> ${stats.average}</li>
+      <li class="list-group-item"><strong>Medián:</strong> ${stats.median}</li>
+      <li class="list-group-item"><strong>Modusz:</strong> ${stats.mode}</li>
+    </ul>
+    <h6 class="mt-3">Eloszlás:</h6>
+    ${distributionDiagram(stats.distribution)}
+  </div>
+`;
+
+container.appendChild(statCard);
+}
+
+
 
 function distributionDiagram(distribution)
 {
@@ -93,9 +120,10 @@ function deleteSubject(event)
     .then(resp => {
         console.log('Response: ', resp)
         if (resp.status === 200) {
-            downloadAndDisplay()
+            window.location.href = "index.html";
         }
     })
+    
 }
 
 function addSubject()

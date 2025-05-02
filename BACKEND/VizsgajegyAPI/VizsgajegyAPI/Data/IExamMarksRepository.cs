@@ -9,5 +9,8 @@ namespace VizsgajegyAPI.Data
         ExamMarks ReadById(int id);
         void RemoveSubject(int id);
         Statistics Statistics(int id);
+        Statistics AllStatistics();
+        Statistics Statistics(List<int> list);
+
     }
 }
