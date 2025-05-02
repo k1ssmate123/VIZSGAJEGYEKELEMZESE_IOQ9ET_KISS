@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VizsgajegyAPI.Data;
 using VizsgajegyAPI.Models;
 
@@ -22,22 +23,25 @@ namespace VizsgajegyAPI.Controllers
         }
 
 
-        [HttpGet("{subjectName}")]
-        public Statistics? GetSubject(string subjectName)
-        {
-            return new Statistics(repo.ReadByName(subjectName));
-        }
-
+       
 
         [HttpPost]
         public void Create([FromBody] ExamMarks exam)
         {
             repo.CreateSubject(exam);
         }
-        [HttpDelete("{subjectName}")]
-        public void Delete(string subjectName)
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            repo.RemoveSubject(subjectName);
+            repo.RemoveSubject(id);
         }
+
+        [HttpGet("stats/{id}")]
+        public IActionResult GetStats(int id)
+        {
+
+            return Ok(repo.Statistics(id));
+        }
+
     }
 }

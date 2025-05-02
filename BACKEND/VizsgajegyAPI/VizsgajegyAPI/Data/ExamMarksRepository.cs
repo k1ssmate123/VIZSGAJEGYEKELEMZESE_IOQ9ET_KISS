@@ -1,4 +1,5 @@
-﻿using VizsgajegyAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using VizsgajegyAPI.Models;
 
 namespace VizsgajegyAPI.Data
 {
@@ -14,40 +15,60 @@ namespace VizsgajegyAPI.Data
         {
             return dbController.ExamMarksList;
         }
-        public ExamMarks ReadByName(string subjectName)
+        public ExamMarks ReadById(int id)
         {
-            return dbController.ExamMarksList.FirstOrDefault(x => x.SubjectName == subjectName);
+            return dbController.ExamMarksList.FirstOrDefault(x => x.Id == id);
         }
 
- 
 
-     
-
-            public  void CreateSubject(ExamMarks exam)
-            {
-                dbController.ExamMarksList.Add(exam);
-                dbController.SaveChanges();
-            }
-
-        public void RemoveSubject(string subjectName)
+        public Statistics Statistics(int id)
         {
-            dbController.ExamMarksList.Remove(ReadByName(subjectName));
+
+            var list = ReadById(id).Marks;
+            var grades = list.OrderBy(x => x);
+
+
+
+            var average = grades.Average();
+            var median = list.Count() % 2 == 0
+                ? (list[list.Count() / 2 - 1] + list[list.Count() / 2]) / 2.0
+                : list[list.Count() / 2];
+
+            var mode = grades
+                .GroupBy(x => x)
+                .OrderByDescending(g => g.Count())
+                .First()
+                .Key;
+
+            var distribution = grades
+                .GroupBy(x => x)
+                .ToDictionary(g => g.Key.ToString(), g => g.Count());
+
+            var result = new Statistics
+            {
+                Average = average,
+                Median = median,
+                Mode = mode,
+                Min = grades.Min(),
+                Max = grades.Max(),
+                Distribution = distribution
+            };
+            return result;
+        }
+
+
+        public void CreateSubject(ExamMarks exam)
+        {
+            dbController.ExamMarksList.Add(exam);
             dbController.SaveChanges();
         }
 
-        public List<string> ReadAllSubject()
+        public void RemoveSubject(int id)
         {
-            List<string> temp = new List<string>();
-            foreach (var item in dbController.ExamMarksList)
-            {
-                temp.Add(item.SubjectName);
-            }
-            return temp;
+            dbController.ExamMarksList.Remove(ReadById(id));
+            dbController.SaveChanges();
         }
-     
 
-     
 
-  
     }
 }
