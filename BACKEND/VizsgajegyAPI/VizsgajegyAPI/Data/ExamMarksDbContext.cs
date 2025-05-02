@@ -9,7 +9,6 @@ namespace VizsgajegyAPI.Data
         public DbSet<ExamMarks> ExamMarksList { get; set; }
         public ExamMarksDbContext()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -21,12 +20,15 @@ namespace VizsgajegyAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ExamMarks>().HasData(
-                new ExamMarks { Id = 1, SubjectName = "Math" },
-                                new ExamMarks { Id = 2, SubjectName = "Math" }
-                                , new ExamMarks { Id = 3, SubjectName = "Math" }
-                                , new ExamMarks { Id = 4, SubjectName = "Math" }
-            );
+            modelBuilder
+            .Entity<ExamMarks>()
+            .Property(e => e.Marks)
+            .HasConversion(
+                v => string.Join(',', v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList());
+
+
+         
 
             base.OnModelCreating(modelBuilder);
         }

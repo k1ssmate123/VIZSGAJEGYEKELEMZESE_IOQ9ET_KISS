@@ -5,7 +5,7 @@ namespace VizsgajegyAPI.Data
     public interface IExamMarksRepository
     {
     
-        void CreateSubject(string subjectName, string marksList);
+        void CreateSubject(ExamMarks exam);
         IEnumerable<ExamMarks> Read();
 
         List<string> ReadAllSubject();

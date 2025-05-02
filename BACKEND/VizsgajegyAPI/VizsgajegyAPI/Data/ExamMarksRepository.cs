@@ -23,12 +23,11 @@ namespace VizsgajegyAPI.Data
 
      
 
-        public  void CreateSubject(string subjectName, string marksList)
-        {
-            ExamMarks temp = new ExamMarks(subjectName, marksList);
-            dbController.ExamMarksList.Add(temp);
-            dbController.SaveChanges();
-        }
+            public  void CreateSubject(ExamMarks exam)
+            {
+                dbController.ExamMarksList.Add(exam);
+                dbController.SaveChanges();
+            }
 
         public void RemoveSubject(string subjectName)
         {

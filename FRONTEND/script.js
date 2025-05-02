@@ -25,14 +25,15 @@ async function downloadAndDisplay() {
 function addSubject()
 {
     let subjectNameForm = document.getElementById('subject').value
-    let marksList = document.getElementById('marks').value
+    let marksList = document.getElementById("marks").value.split(';').map(m => parseInt(m.trim()));
+
    
     fetch('http://localhost:5186/ExamMarks/', {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json', },
         body: JSON.stringify({
             subjectName: subjectNameForm,
-            markList: marksList,
+            marks: marksList,
         })
     })
     .then(resp => {
