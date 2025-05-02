@@ -52,37 +52,59 @@ async function showStats(event) {
     distributionDiagram(stats.distribution, document.getElementById("chart"))
 }
 
-
 async function allStats() {
-    const response = await fetch('http://localhost:5186/ExamMarks/stats')
-    stats = await response.json()
+    const response = await fetch('http://localhost:5186/ExamMarks/stats');
+    const stats = await response.json();
     console.log(stats);
+  
     const container = document.getElementById("stats-panel");
+  
+    
+    const card = document.createElement("div");
+    card.classList.add("card", "mb-4", "shadow-sm");
 
     const cardBody = document.createElement("div");
     cardBody.classList.add("card-body");
-    
-    cardBody.innerHTML = `
-    <div class="card-body">
-      <h5 class="card-title">Statisztikák</h5>
-      <ul class="list-group list-group-flush mb-3">
-        <li class="list-group-item"><strong>Átlag:</strong> ${stats.average}</li>
-        <li class="list-group-item"><strong>Medián:</strong> ${stats.median}</li>
-        <li class="list-group-item"><strong>Modusz:</strong> ${stats.mode}</li>
-      </ul>
-      <h6 class="mt-3">Eloszlás:</h6>
-    `;
-    
+  
+  
+    const title = document.createElement("h5");
+    title.classList.add("card-title");
+    title.textContent = "Statisztikák";
+  
+
+    const statList = document.createElement("ul");
+    statList.classList.add("list-group", "list-group-flush", "mb-3");
+  
+    const avgItem = document.createElement("li");
+    avgItem.classList.add("list-group-item");
+    avgItem.innerHTML = `<p>Átlag:</p> ${stats.average}`;
+  
+    const medianItem = document.createElement("li");
+    medianItem.classList.add("list-group-item");
+    medianItem.innerHTML = `<p>Medián:</p> ${stats.median}`;
+  
+    const modeItem = document.createElement("li");
+    modeItem.classList.add("list-group-item");
+    modeItem.innerHTML = `<p>Módusz:</p> ${stats.mode}`;
+  
+    statList.append(avgItem, medianItem, modeItem);
+  
+ 
+    const distTitle = document.createElement("h6");
+    distTitle.classList.add("mt-3");
+    distTitle.textContent = "Eloszlás:";
+  
+  
     const distDiv = document.createElement("div");
-    distDiv.classList.add("distributiondiv");
-    distributionDiagram(stats.distribution, distDiv);
-    
-    cardBody.appendChild(distDiv);
-    container.appendChild(cardBody);
-    
+    distDiv.classList.add("distributiondiv", "mt-2");
+    distributionDiagram(stats.distribution, distDiv); 
+  
 
-}
-
+    cardBody.append(title, statList, distTitle, distDiv);
+    card.appendChild(cardBody);
+    container.appendChild(card);
+  }
+  
 
 
 function distributionDiagram(distribution, container) {
