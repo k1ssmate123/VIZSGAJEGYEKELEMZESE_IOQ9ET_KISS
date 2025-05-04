@@ -21,10 +21,6 @@ namespace VizsgajegyAPI.Controllers
         {
             return repo.Read();
         }
-
-
-       
-
         [HttpPost]
         public void Create([FromBody] ExamMarks exam)
         {

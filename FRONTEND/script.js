@@ -45,11 +45,28 @@ async function downloadAndDisplay() {
     })
 }
 
-async function showStats(event) {
-    const response = await fetch('http://localhost:5186/ExamMarks/stats/' + event.target.idParameter)
+async function getStats(id){
+    const response = await fetch('http://localhost:5186/ExamMarks/stats/' + id)
     stats = await response.json()
     console.log(stats)
+    return stats
+}
+
+async function showStats(event) {
+    stats = await getStats(event.target.idParameter)
     distributionDiagram(stats.distribution, document.getElementById("chart"))
+}
+
+
+async function AvarageDict(subjects) {
+    const averages = {};
+
+    for (const subject of subjects) {
+        const stats = await getStats(subject.id);
+        averages[subject.subjectName] = stats.average; 
+    }
+    console.log(averages)
+    return averages;
 }
 
 async function allStats() {
@@ -99,8 +116,14 @@ async function allStats() {
     distDiv.classList.add("distributiondiv", "mt-2");
     distributionDiagram(stats.distribution, distDiv); 
   
+    const avgDiv = document.createElement("div");
+    avgDiv.classList.add("mt-2");
+    distributionDiagram(await AvarageDict(subjects), avgDiv); 
+  
 
-    cardBody.append(title, statList, distTitle, distDiv);
+
+
+    cardBody.append(title, statList, distTitle, distDiv, avgDiv);
     card.appendChild(cardBody);
     container.appendChild(card);
   }
@@ -131,12 +154,11 @@ function distributionDiagram(distribution, container) {
         container.appendChild(bar);
     }
 
-    // Opcionális: ha a container még nem tartalmazza, adjuk hozzá a szükséges osztályt
+  
     if (!container.classList.contains("chart-container")) {
         container.classList.add("chart-container");
     }
 }
-
 
 function deleteSubject(event) {
     fetch('http://localhost:5186/ExamMarks/' + event.target.idParameter, {
