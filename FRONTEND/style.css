@@ -3,14 +3,14 @@
   align-items: flex-end;
   gap: 10px;
   height: 200px;
-
+  padding-bottom: 40px;
   padding: 10px;
-
+  overflow: visible;
 }
 
 .bar {
   background-color: steelblue;
-  width: 40px;
+  width: 50px;
   text-align: center;
   color: white;
   display: flex;
@@ -34,9 +34,11 @@
   width: 100%;
   color: #000;
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li p {
     font-weight: bold;
 }
-

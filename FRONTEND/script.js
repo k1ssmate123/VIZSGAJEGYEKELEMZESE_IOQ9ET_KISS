@@ -116,6 +116,10 @@ async function allStats() {
     distDiv.classList.add("distributiondiv", "mt-2");
     distributionDiagram(stats.distribution, distDiv); 
   
+
+    const avgTitle = document.createElement("h6");
+    avgTitle.classList.add("mt-3");
+    avgTitle.textContent = "Átlag eloszlása:";
     const avgDiv = document.createElement("div");
     avgDiv.classList.add("mt-2");
     distributionDiagram(await AvarageDict(subjects), avgDiv); 
@@ -123,7 +127,7 @@ async function allStats() {
 
 
 
-    cardBody.append(title, statList, distTitle, distDiv, avgDiv);
+    cardBody.append(title, statList, distTitle, distDiv, avgTitle,avgDiv);
     card.appendChild(cardBody);
     container.appendChild(card);
   }
