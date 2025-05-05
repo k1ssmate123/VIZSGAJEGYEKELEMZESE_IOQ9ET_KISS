@@ -63,7 +63,7 @@ async function AvarageDict(subjects) {
 
     for (const subject of subjects) {
         const stats = await getStats(subject.id);
-        averages[subject.subjectName] = stats.average; 
+        averages[subject.subjectName] = stats.average.toFixed(2); 
     }
     console.log(averages)
     return averages;
@@ -94,7 +94,7 @@ async function allStats() {
   
     const avgItem = document.createElement("li");
     avgItem.classList.add("list-group-item");
-    avgItem.innerHTML = `<p>Átlag:</p> ${stats.average}`;
+    avgItem.innerHTML = `<p>Átlag:</p> ${stats.average.toFixed(2)}`;
   
     const medianItem = document.createElement("li");
     medianItem.classList.add("list-group-item");
@@ -114,7 +114,7 @@ async function allStats() {
   
     const distDiv = document.createElement("div");
     distDiv.classList.add("distributiondiv", "mt-2");
-    distributionDiagram(stats.distribution, distDiv); 
+
   
 
     const avgTitle = document.createElement("h6");
@@ -122,12 +122,17 @@ async function allStats() {
     avgTitle.textContent = "Átlag eloszlása:";
     const avgDiv = document.createElement("div");
     avgDiv.classList.add("mt-2");
-    distributionDiagram(await AvarageDict(subjects), avgDiv); 
+  
   
 
+    cardBody.append(title, statList, distTitle, distDiv, avgTitle, avgDiv);
 
+  
+    distributionDiagram(stats.distribution, distDiv); 
+    distributionDiagram(await AvarageDict(subjects), avgDiv);
+    
 
-    cardBody.append(title, statList, distTitle, distDiv, avgTitle,avgDiv);
+  
     card.appendChild(cardBody);
     container.appendChild(card);
   }
