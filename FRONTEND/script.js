@@ -45,7 +45,7 @@ async function downloadAndDisplay() {
     })
 }
 
-async function getStats(id){
+async function getStats(id) {
     const response = await fetch('http://localhost:5186/ExamMarks/stats/' + id)
     stats = await response.json()
     console.log(stats)
@@ -53,9 +53,64 @@ async function getStats(id){
 }
 
 async function showStats(event) {
-    stats = await getStats(event.target.idParameter)
-    distributionDiagram(stats.distribution, document.getElementById("chart"))
+    const stats = await getStats(event.target.idParameter);
+
+    const chartContainer = document.getElementById("chart");
+    chartContainer.innerHTML = "";
+
+
+
+    const card = document.createElement("div");
+    card.classList.add("card", "mb-4", "shadow-sm");
+
+    const cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+
+
+    const title = document.createElement("h5");
+    title.classList.add("card-title");
+    title.textContent = "Tárgy statisztikája";
+
+
+    const statList = document.createElement("ul");
+    statList.classList.add("list-group", "list-group-flush", "mb-3");
+
+    const avgItem = document.createElement("li");
+    avgItem.classList.add("list-group-item");
+    avgItem.innerHTML = `<p>Átlag:</p> ${stats.average.toFixed(2)}`;
+
+    const medianItem = document.createElement("li");
+    medianItem.classList.add("list-group-item");
+    medianItem.innerHTML = `<p>Medián:</p> ${stats.median}`;
+
+    const modeItem = document.createElement("li");
+    modeItem.classList.add("list-group-item");
+    modeItem.innerHTML = `<p>Módusz:</p> ${stats.mode}`;
+
+    statList.append(avgItem, medianItem, modeItem);
+
+
+    const distTitle = document.createElement("h6");
+    distTitle.classList.add("mt-3");
+    distTitle.textContent = "Eloszlás:";
+
+
+    const distDiv = document.createElement("div");
+    distDiv.classList.add("distributiondiv", "mt-2");
+
+
+
+ 
+
+
+    cardBody.append(title, statList, distTitle, distDiv);
+
+
+    distributionDiagram(stats.distribution, distDiv);
+    card.appendChild(cardBody);
+    chartContainer.appendChild(card);
 }
+
 
 
 async function AvarageDict(subjects) {
@@ -63,7 +118,7 @@ async function AvarageDict(subjects) {
 
     for (const subject of subjects) {
         const stats = await getStats(subject.id);
-        averages[subject.subjectName] = stats.average.toFixed(2); 
+        averages[subject.subjectName] = stats.average.toFixed(2);
     }
     console.log(averages)
     return averages;
@@ -73,70 +128,71 @@ async function allStats() {
     const response = await fetch('http://localhost:5186/ExamMarks/stats');
     const stats = await response.json();
     console.log(stats);
-  
+
     const container = document.getElementById("stats-panel");
-  
-    
+
+
     const card = document.createElement("div");
     card.classList.add("card", "mb-4", "shadow-sm");
 
     const cardBody = document.createElement("div");
     cardBody.classList.add("card-body");
-  
-  
+
+
     const title = document.createElement("h5");
     title.classList.add("card-title");
     title.textContent = "Statisztikák";
-  
+
 
     const statList = document.createElement("ul");
     statList.classList.add("list-group", "list-group-flush", "mb-3");
-  
+
     const avgItem = document.createElement("li");
     avgItem.classList.add("list-group-item");
     avgItem.innerHTML = `<p>Átlag:</p> ${stats.average.toFixed(2)}`;
-  
+
     const medianItem = document.createElement("li");
     medianItem.classList.add("list-group-item");
     medianItem.innerHTML = `<p>Medián:</p> ${stats.median}`;
-  
+
     const modeItem = document.createElement("li");
     modeItem.classList.add("list-group-item");
     modeItem.innerHTML = `<p>Módusz:</p> ${stats.mode}`;
-  
+
     statList.append(avgItem, medianItem, modeItem);
-  
- 
+
+
     const distTitle = document.createElement("h6");
     distTitle.classList.add("mt-3");
     distTitle.textContent = "Eloszlás:";
-  
-  
+
+
     const distDiv = document.createElement("div");
     distDiv.classList.add("distributiondiv", "mt-2");
 
-  
+
 
     const avgTitle = document.createElement("h6");
     avgTitle.classList.add("mt-3");
     avgTitle.textContent = "Átlag eloszlása:";
     const avgDiv = document.createElement("div");
     avgDiv.classList.add("mt-2");
-  
-  
+
+
 
     cardBody.append(title, statList, distTitle, distDiv, avgTitle, avgDiv);
 
-  
-    distributionDiagram(stats.distribution, distDiv); 
-    distributionDiagram(await AvarageDict(subjects), avgDiv);
-    
 
-  
+   
+
+
+
     card.appendChild(cardBody);
     container.appendChild(card);
-  }
-  
+    distributionDiagram(stats.distribution, distDiv);
+    distributionDiagram(await AvarageDict(subjects), avgDiv);
+}
+
 
 
 function distributionDiagram(distribution, container) {
@@ -163,7 +219,7 @@ function distributionDiagram(distribution, container) {
         container.appendChild(bar);
     }
 
-  
+
     if (!container.classList.contains("chart-container")) {
         container.classList.add("chart-container");
     }
