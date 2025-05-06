@@ -242,7 +242,10 @@ function deleteSubject(event) {
 
 function addSubject() {
     let subjectNameForm = document.getElementById('subject').value
-    let marksList = document.getElementById("marks").value.split(';').map(m => parseInt(m.trim()));
+    let marksList = document.getElementById("marks").value
+    .split(';')
+    .map(x => parseInt(x.trim()))
+    .filter(x => x >= 1 && x <= 5);
 
 
     fetch('http://localhost:5186/ExamMarks/', {
